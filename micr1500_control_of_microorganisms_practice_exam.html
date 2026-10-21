@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MICR1500 Control of Microorganisms Practice Exam</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 h-full flex flex-col antialiased transition-colors duration-300" id="body-root">
+
+    <!-- Header -->
+    <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/60 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-600 text-white p-2.5 rounded-xl shadow-md">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2 flex-wrap">
+                        <h1 class="text-lg sm:text-xl font-bold text-white tracking-tight">MICR1500 Control of Microorganisms</h1>
+                        <span class="bg-emerald-500/20 text-emerald-400 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-emerald-500/30">Practice Exam</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-0.5">30 Questions • Comprehensive Clinical Study Guide Review</p>
+                </div>
+            </div>
+
+            <!-- Top Right Action Bar: Theme Toggle & Live Grade Tracker -->
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleTheme()" id="theme-toggle-btn" class="flex items-center space-x-2 bg-slate-700/60 hover:bg-slate-700 border border-slate-600 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-medium transition-all shadow-sm">
+                    <svg id="theme-icon" class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <span id="theme-text">Light Mode</span>
+                </button>
+
+                <div id="live-grade-pill" class="bg-slate-700/80 border border-slate-600 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-sm flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="grade-display">Grade: 0% (0/30)</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
+        
+        <!-- Category Filter Pills Bar -->
+        <div id="filter-bar" class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            <button onclick="setFilter('all')" class="filter-pill active-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-emerald-600 text-white shadow-md shadow-emerald-600/20">All (30)</button>
+            <button onclick="setFilter('part1')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">Part 1: Terms (Q1-5)</button>
+            <button onclick="setFilter('part2')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">Part 2: Factors & Susceptibility (Q6-10)</button>
+            <button onclick="setFilter('part3')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">Part 3: Heat (Q11-14)</button>
+            <button onclick="setFilter('part4')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">Part 4: Filtration & Radiation (Q15-19)</button>
+            <button onclick="setFilter('part5')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">Part 5: Chemical Testing (Q20-24)</button>
+            <button onclick="setFilter('part6')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">Part 6: Chemical Agents (Q25-30)</button>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Left Column: Question Card Area -->
+            <div class="flex-1 flex flex-col min-w-0">
+                
+                <!-- Welcome View -->
+                <div id="welcome-view" class="bg-slate-800/90 rounded-2xl shadow-xl border border-slate-700/80 p-6 sm:p-10 mb-6 backdrop-blur-sm">
+                    <div class="max-w-3xl">
+                        <span class="inline-block bg-emerald-500/20 text-emerald-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4 border border-emerald-500/30">Official Study Guide Assessment</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to test your mastery of MICR1500 Control of Microorganisms?</h2>
+                        <p class="text-slate-300 mb-6 leading-relaxed">
+                            This application covers all 30 official practice questions from your MICR1500 Control of Microorganisms study guide. Selecting your answers and clicking <strong>Submit Answer</strong> instantly grades your response, locks the options, reveals the exact rationale from the answer key, and updates your live grade in real time.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 text-center">
+                                <span class="block text-2xl font-black text-emerald-400">30</span>
+                                <span class="text-xs text-slate-400 font-medium">Total Questions</span>
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 text-center">
+                                <span class="block text-2xl font-black text-blue-400">20 / 10</span>
+                                <span class="text-xs text-slate-400 font-medium">MCQs & Select-All</span>
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 text-center">
+                                <span class="block text-2xl font-black text-amber-400">Instant</span>
+                                <span class="text-xs text-slate-400 font-medium">Automated Feedback</span>
+                            </div>
+                        </div>
+
+                        <button onclick="startExam()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg shadow-emerald-600/30 transition-all transform active:scale-95 flex items-center space-x-2">
+                            <span>Start Practice Exam</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Exam Active View -->
+                <div id="exam-view" class="hidden flex-1 flex flex-col">
+                    
+                    <!-- Question Card -->
+                    <div class="bg-slate-800/90 rounded-2xl shadow-xl border border-slate-700/80 p-6 sm:p-10 mb-6 flex-1 flex flex-col justify-between backdrop-blur-sm">
+                        <div>
+                            <!-- Header inside card -->
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <span id="question-badge" class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-slate-700 text-slate-300 border border-slate-600">Question 1 of 30</span>
+                                    <span id="question-type-badge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30">Multiple Choice</span>
+                                </div>
+                                <span id="select-all-note" class="hidden text-xs text-amber-400 font-medium flex items-center space-x-1">
+                                    <svg class="w-3.5 h-3.5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Select all that apply
+                                </span>
+                            </div>
+
+                            <h3 id="question-title" class="text-lg sm:text-xl font-semibold text-white mb-6 leading-relaxed">
+                                Question text goes here...
+                            </h3>
+
+                            <!-- Options Container -->
+                            <div id="options-container" class="space-y-3 mb-6">
+                                <!-- Options injected dynamically -->
+                            </div>
+
+                            <!-- Immediate Feedback Display Box (Shown upon clicking Submit Answer) -->
+                            <div id="feedback-box" class="hidden mt-6 p-5 rounded-xl border text-sm transition-all">
+                                <div class="flex items-center space-x-2 font-bold mb-1.5" id="feedback-header">
+                                    <!-- Correct/Incorrect indicator -->
+                                </div>
+                                <p id="feedback-rationale" class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+                                    <!-- Rationale explanation from study guide -->
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer / Actions -->
+                        <div class="pt-6 border-t border-slate-700/80 flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+                            <button onclick="prevQuestion()" id="prev-btn" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-700 text-sm font-medium text-slate-300 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                <span>Previous</span>
+                            </button>
+
+                            <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
+                                <button onclick="submitCurrentAnswer()" id="submit-ans-btn" class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center space-x-1.5">
+                                    <span>Submit Answer</span>
+                                </button>
+                                <button onclick="nextQuestion()" id="next-btn" class="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-medium text-sm border border-slate-600 transition-all flex items-center justify-center space-x-1">
+                                    <span id="next-btn-text">Next</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Results View -->
+                <div id="results-view" class="hidden bg-slate-800/90 rounded-2xl shadow-xl border border-slate-700/80 p-6 sm:p-10 mb-6 backdrop-blur-sm">
+                    <div class="text-center max-w-2xl mx-auto mb-8">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-emerald-500/20 text-emerald-400 rounded-3xl mb-4 border border-emerald-500/30 shadow-inner">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">Practice Exam Completed!</h2>
+                        <p class="text-slate-300 mb-6">Here is your comprehensive score breakdown based on your study guide criteria.</p>
+                        
+                        <div class="bg-slate-900/60 rounded-2xl p-6 border border-slate-700 mb-6">
+                            <div class="text-4xl sm:text-5xl font-black text-emerald-400 mb-2" id="final-percentage">0%</div>
+                            <div class="text-lg font-semibold text-slate-200 mb-4" id="final-fraction">0 / 30 Correct</div>
+                            
+                            <div id="final-readiness-badge" class="inline-block px-4 py-2 rounded-xl text-sm font-bold mb-3 border">
+                                <!-- Badge -->
+                            </div>
+                            <p id="final-readiness-desc" class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                <!-- Desc -->
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <button onclick="reviewAllAnswers()" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-3 rounded-xl transition-all border border-slate-600 shadow-md">
+                                Review Answers & Rationales
+                            </button>
+                            <button onclick="restartExam()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-md shadow-emerald-600/30">
+                                Retake Exam
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Question Navigator Sidebar -->
+            <div id="sidebar-container" class="hidden lg:block w-full lg:w-80 flex-shrink-0">
+                <div class="bg-slate-800/90 rounded-2xl shadow-xl border border-slate-700/80 p-6 sticky top-28 backdrop-blur-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-white text-xs uppercase tracking-wider">Exam Navigator</h3>
+                        <span id="sidebar-answered-count" class="text-xs font-medium text-slate-400">0 of 30 Submitted</span>
+                    </div>
+
+                    <!-- Question Grid -->
+                    <div id="navigator-grid" class="grid grid-cols-6 gap-2 mb-6">
+                        <!-- Injected dynamically -->
+                    </div>
+
+                    <div id="finish-exam-section" class="pt-4 border-t border-slate-700/80 hidden">
+                        <button onclick="finishExam()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center space-x-2">
+                            <span>View Final Score & Summary</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </button>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-700/80 text-xs text-slate-400 space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 bg-emerald-500/20 border border-emerald-500 rounded-sm"></span>
+                            <span>Correctly Answered</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 bg-rose-500/20 border border-rose-500 rounded-sm"></span>
+                            <span>Incorrectly Answered</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 bg-slate-700 border border-slate-600 rounded-sm"></span>
+                            <span>Unsubmitted / Unanswered</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800/80 border-t border-slate-700/60 py-4 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-400">
+            MICR1500 Control of Microorganisms • Comprehensive Study Guide Practice Exam
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // 30 Complete Study Guide Questions
+        const questions = [
+            {
+                id: 1, section: "part1", type: "mc",
+                text: "A chemical used on living tissue to destroy pathogens is called a(n):",
+                options: [
+                    { key: "A", text: "Disinfectant" },
+                    { key: "B", text: "Antiseptic" },
+                    { key: "C", text: "Sterilant" },
+                    { key: "D", text: "Sanitizer" }
+                ],
+                correct: "B",
+                why: "Antiseptics go on living tissue; disinfectants go on inanimate objects."
+            },
+            {
+                id: 2, section: "part1", type: "mc",
+                text: "Conditions that are free of contaminating microbes are described as:",
+                options: [
+                    { key: "A", text: "Septic" },
+                    { key: "B", text: "Sanitized" },
+                    { key: "C", text: "Aseptic" },
+                    { key: "D", text: "Degermed" }
+                ],
+                correct: "C",
+                why: "Aseptic means free of contaminating microbes; septic means already contaminated."
+            },
+            {
+                id: 3, section: "part1", type: "sata",
+                text: "Which statements about sterilization are true? (Select all that apply.)",
+                options: [
+                    { key: "A", text: "It destroys or removes all forms of life" },
+                    { key: "B", text: "There is an in-between 'partly sterile' state" },
+                    { key: "C", text: "Prions are easily sterilized" },
+                    { key: "D", text: "It includes destroying bacterial spores" },
+                    { key: "E", text: "Bacterial spores are the most resistant microbe it kills" }
+                ],
+                correct: ["A", "D", "E"],
+                why: "Sterilization is all-or-nothing (no in-between), includes spores, and cannot sterilize prions."
+            },
+            {
+                id: 4, section: "part1", type: "mc",
+                text: "A bacteriostatic agent:",
+                options: [
+                    { key: "A", text: "Slows or stops bacterial growth without killing" },
+                    { key: "B", text: "Kills all bacteria on contact" },
+                    { key: "C", text: "Removes microbes from a surface" },
+                    { key: "D", text: "Destroys all bacterial spores" }
+                ],
+                correct: "A",
+                why: "'-static' means slow growth, so growth can come back once the agent is removed."
+            },
+            {
+                id: 5, section: "part1", type: "mc",
+                text: "Which microbe is the most resistant to antimicrobial agents?",
+                options: [
+                    { key: "A", text: "Bacterial endospores" },
+                    { key: "B", text: "Mycobacteria" },
+                    { key: "C", text: "Fungal spores" },
+                    { key: "D", text: "Prions" }
+                ],
+                correct: "D",
+                why: "Prions sit at the hardest, most resistant end of the susceptibility ladder."
+            },
+            {
+                id: 6, section: "part2", type: "mc",
+                text: "Gram-negative bacteria are more resistant to chemicals than Gram-positive bacteria. The structure noted in the lecture is the:",
+                options: [
+                    { key: "A", text: "Waxy cell wall" },
+                    { key: "B", text: "Periplasmic space" },
+                    { key: "C", text: "Viral envelope" },
+                    { key: "D", text: "Dormant cyst wall" }
+                ],
+                correct: "B",
+                why: "The periplasmic space is the specific structural feature linked to Gram-negative chemical resistance."
+            },
+            {
+                id: 7, section: "part2", type: "sata",
+                text: "Which factors affect how well an antimicrobial measure works? (Select all that apply.)",
+                options: [
+                    { key: "A", text: "Intensity or concentration of the measure" },
+                    { key: "B", text: "Whether the measure is physical or chemotherapeutic" },
+                    { key: "C", text: "Time of exposure" },
+                    { key: "D", text: "Environmental factors such as organic matter" },
+                    { key: "E", text: "The microbial population" }
+                ],
+                correct: ["A", "C", "D", "E"],
+                why: "The five factors are population, environment (organic matter), time, intensity, and microbial characteristics."
+            },
+            {
+                id: 8, section: "part2", type: "mc",
+                text: "If 1,000,000 bacteria die at a constant 90% per minute, how many survive after 3 minutes?",
+                options: [
+                    { key: "A", text: "1,000" },
+                    { key: "B", text: "10,000" },
+                    { key: "C", text: "100" },
+                    { key: "D", text: "100,000" }
+                ],
+                correct: "A",
+                why: "100,000 survive after 1 min, 10,000 after 2 min, and 1,000 after 3 min."
+            },
+            {
+                id: 9, section: "part2", type: "mc",
+                text: "Ranking microbes from most to least susceptible, which one is third?",
+                options: [
+                    { key: "A", text: "Fungi" },
+                    { key: "B", text: "Gram-negative bacteria" },
+                    { key: "C", text: "Nonenveloped viruses" },
+                    { key: "D", text: "Mycobacteria" }
+                ],
+                correct: "C",
+                why: "The order starts with 1: Enveloped viruses, 2: Gram+, 3: Nonenveloped viruses."
+            },
+            {
+                id: 10, section: "part2", type: "mc",
+                text: "Thermal death time is the:",
+                options: [
+                    { key: "A", text: "Temperature needed to kill a population in a given time" },
+                    { key: "B", text: "Time needed for bacteria to double" },
+                    { key: "C", text: "Lowest temperature at which microbes grow" },
+                    { key: "D", text: "Time needed to kill a population of microbes at a given temperature" }
+                ],
+                correct: "D",
+                why: "TDT = time at a set temperature; TDP is temperature for a set time."
+            },
+            {
+                id: 11, section: "part3", type: "mc",
+                text: "Which condition sterilizes in an autoclave?",
+                options: [
+                    { key: "A", text: "100°C for 10 minutes" },
+                    { key: "B", text: "121°C for 15 minutes" },
+                    { key: "C", text: "160°C for 2 hours" },
+                    { key: "D", text: "71.6°C for 15 seconds" }
+                ],
+                correct: "B",
+                why: "Autoclaving uses pressurized steam at 121°C for 15 minutes at 15 psi."
+            },
+            {
+                id: 12, section: "part3", type: "sata",
+                text: "Heat kills microbes by: (Select all that apply.)",
+                options: [
+                    { key: "A", text: "Inhibiting protein synthesis" },
+                    { key: "B", text: "Destroying membranes" },
+                    { key: "C", text: "Denaturing and oxidizing proteins" },
+                    { key: "D", text: "Dehydration" },
+                    { key: "E", text: "Breaking down cell walls only" }
+                ],
+                correct: ["B", "C", "D"],
+                why: "Heat destroys membranes, denatures proteins, and dehydrates."
+            },
+            {
+                id: 13, section: "part3", type: "mc",
+                text: "Which pasteurization method is the most common?",
+                options: [
+                    { key: "A", text: "71.6°C for 15 seconds" },
+                    { key: "B", text: "62.9°C for 30 minutes" },
+                    { key: "C", text: "82°C for 3 seconds" },
+                    { key: "D", text: "100°C for 10 minutes" }
+                ],
+                correct: "A",
+                why: "Flash pasteurization (71.6°C for 15 s) is the most common and tested type."
+            },
+            {
+                id: 14, section: "part3", type: "sata",
+                text: "Which statements about boiling water are true? (Select all that apply.)",
+                options: [
+                    { key: "A", text: "Bacterial spores are killed in 10 minutes" },
+                    { key: "B", text: "It is not effective at sterilizing" },
+                    { key: "C", text: "Most species are killed in 10 minutes" },
+                    { key: "D", text: "Fungal spores and hepatitis A may need 30 minutes" },
+                    { key: "E", text: "Bacterial spores need more than 2 hours" }
+                ],
+                correct: ["B", "C", "D", "E"],
+                why: "Boiling kills most species fast but is not effective at sterilizing because spores survive > 2 hours."
+            },
+            {
+                id: 15, section: "part4", type: "mc",
+                text: "The '95' in N95 means the mask filters at least 95% of airborne particles down to:",
+                options: [
+                    { key: "A", text: "0.03 microns" },
+                    { key: "B", text: "3 microns" },
+                    { key: "C", text: "0.3 microns" },
+                    { key: "D", text: "30 microns" }
+                ],
+                correct: "C",
+                why: "95 = filters at least 95% of particles down to 0.3 microns (300 nm)."
+            },
+            {
+                id: 16, section: "part4", type: "mc",
+                text: "Which type of radiation can sterilize only surfaces because of poor penetration?",
+                options: [
+                    { key: "A", text: "Gamma rays" },
+                    { key: "B", text: "X-rays" },
+                    { key: "C", text: "Ionizing radiation" },
+                    { key: "D", text: "Ultraviolet (UV) light" }
+                ],
+                correct: "D",
+                why: "UV is non-ionizing, has poor penetration, and sterilizes surfaces only."
+            },
+            {
+                id: 17, section: "part4", type: "mc",
+                text: "Filtration is best used for:",
+                options: [
+                    { key: "A", text: "Heat-sensitive materials such as antiserums and antibiotics" },
+                    { key: "B", text: "Sterilizing bedding and utensils" },
+                    { key: "C", text: "Destroying genetic material" },
+                    { key: "D", text: "Disposing of contaminated gowns" }
+                ],
+                correct: "A",
+                why: "Filtration physically removes microbes without heat, making it ideal for heat-sensitive items."
+            },
+            {
+                id: 18, section: "part4", type: "sata",
+                text: "Which statements about ionizing radiation are true? (Select all that apply.)",
+                options: [
+                    { key: "A", text: "It includes gamma rays and x-rays" },
+                    { key: "B", text: "It sterilizes surfaces only" },
+                    { key: "C", text: "It has good penetration" },
+                    { key: "D", text: "It is germicidal by destroying genetic material" },
+                    { key: "E", text: "It is used to sterilize vaccines and sutures" }
+                ],
+                correct: ["A", "C", "D", "E"],
+                why: "Ionizing radiation penetrates deeply and destroys genetic material, sterilizing foods and vaccines."
+            },
+            {
+                id: 19, section: "part4", type: "sata",
+                text: "Which preservation methods are bacteriostatic? (Select all that apply.)",
+                options: [
+                    { key: "A", text: "Salting" },
+                    { key: "B", text: "Autoclaving" },
+                    { key: "C", text: "Drying" },
+                    { key: "D", text: "Refrigeration" },
+                    { key: "E", text: "Freezing" }
+                ],
+                correct: ["A", "C", "D", "E"],
+                why: "Salting, drying, and all cold methods are bacteriostatic (slow or stop growth)."
+            },
+            {
+                id: 20, section: "part5", type: "mc",
+                text: "In the disk diffusion test, the test is:",
+                options: [
+                    { key: "A", text: "Quantitative and bactericidal" },
+                    { key: "B", text: "Not quantitative and not bactericidal" },
+                    { key: "C", text: "Quantitative but not bactericidal" },
+                    { key: "D", text: "Bactericidal but not quantitative" }
+                ],
+                correct: "B",
+                why: "Disk diffusion is qualitative and visual, not quantitative and not bactericidal."
+            },
+            {
+                id: 21, section: "part5", type: "mc",
+                text: "In the disk diffusion test, a larger clear zone around the disk means the chemical is:",
+                options: [
+                    { key: "A", text: "Less effective" },
+                    { key: "B", text: "More toxic to humans" },
+                    { key: "C", text: "Better at killing microbes" },
+                    { key: "D", text: "Quantitative" }
+                ],
+                correct: "C",
+                why: "A bigger clear zone shows stronger effectiveness in killing microbes."
+            },
+            {
+                id: 22, section: "part5", type: "mc",
+                text: "Which test uses metal spheres soaked in bacteria and placed in wells containing the chemical?",
+                options: [
+                    { key: "A", text: "Disk diffusion test" },
+                    { key: "B", text: "In-use test" },
+                    { key: "C", text: "Phenol coefficient" },
+                    { key: "D", text: "Use-dilution test" }
+                ],
+                correct: "D",
+                why: "The use-dilution test uses metal spheres and a 96-well plate."
+            },
+            {
+                id: 23, section: "part5", type: "mc",
+                text: "Bleach has a phenol coefficient of 5.0 against S. aureus. This means it is:",
+                options: [
+                    { key: "A", text: "5 times worse than phenol" },
+                    { key: "B", text: "The same as phenol" },
+                    { key: "C", text: "5 times better than phenol" },
+                    { key: "D", text: "Half as effective as phenol" }
+                ],
+                correct: "C",
+                why: "A phenol coefficient above 1 means better than phenol (5.0 = 5 times better)."
+            },
+            {
+                id: 24, section: "part5", type: "sata",
+                text: "Which are drawbacks of the disk diffusion and use-dilution tests? (Select all that apply.)",
+                options: [
+                    { key: "A", text: "They use controlled conditions with no organic matter" },
+                    { key: "B", text: "They do not test toxicity of the chemical" },
+                    { key: "C", text: "They have no temperature or pH variation" },
+                    { key: "D", text: "They only work on viruses" },
+                    { key: "E", text: "They always need an automated plate reader" }
+                ],
+                correct: ["A", "B", "C"],
+                why: "Both tests use ideal lab conditions and ignore chemical toxicity."
+            },
+            {
+                id: 25, section: "part6", type: "mc",
+                text: "Phenol is mainly effective against:",
+                options: [
+                    { key: "A", text: "Gram-positive bacteria" },
+                    { key: "B", text: "Gram-negative bacteria" },
+                    { key: "C", text: "Bacterial spores" },
+                    { key: "D", text: "All microbes equally" }
+                ],
+                correct: "A",
+                why: "Phenol is effective against Gram-positive bacteria and is caustic to skin."
+            },
+            {
+                id: 26, section: "part6", type: "mc",
+                text: "Which chemical kills by oxidizing proteins and poking holes in membranes?",
+                options: [
+                    { key: "A", text: "Iodine" },
+                    { key: "B", text: "Formaldehyde" },
+                    { key: "C", text: "Alcohol" },
+                    { key: "D", text: "Chlorine (bleach)" }
+                ],
+                correct: "D",
+                why: "Chlorine oxidizes proteins and pokes holes in cell membranes."
+            },
+            {
+                id: 27, section: "part6", type: "mc",
+                text: "Which chemical is used to disinfect instruments and as a skin antiseptic but is toxic to skin?",
+                options: [
+                    { key: "A", text: "Copper" },
+                    { key: "B", text: "Alcohol" },
+                    { key: "C", text: "Ethylene oxide" },
+                    { key: "D", text: "Formaldehyde" }
+                ],
+                correct: "B",
+                why: "Alcohol is highlighted in the lecture as a skin antiseptic and instrument disinfectant."
+            },
+            {
+                id: 28, section: "part6", type: "sata",
+                text: "What do phenol derivatives such as triclosan target? (Select all that apply.)",
+                options: [
+                    { key: "A", text: "Cell membranes" },
+                    { key: "B", text: "Nucleic acids" },
+                    { key: "C", text: "Proteins" },
+                    { key: "D", text: "Spore coats" },
+                    { key: "E", text: "Ribosomes" }
+                ],
+                correct: ["A", "C"],
+                why: "Phenol derivatives denature proteins and disrupt cell membranes."
+            },
+            {
+                id: 29, section: "part6", type: "sata",
+                text: "Which chemicals fix (join) proteins and nucleic acids? (Select all that apply.)",
+                options: [
+                    { key: "A", text: "Alcohols" },
+                    { key: "B", text: "Formaldehyde" },
+                    { key: "C", text: "Hydrogen peroxide" },
+                    { key: "D", text: "Glutaraldehyde" },
+                    { key: "E", text: "Ethylene oxide" }
+                ],
+                correct: ["B", "D", "E"],
+                why: "Formaldehyde, glutaraldehyde, and ethylene oxide fix proteins and nucleic acids."
+            },
+            {
+                id: 30, section: "part6", type: "sata",
+                text: "Which statements about iodine are true? (Select all that apply.)",
+                options: [
+                    { key: "A", text: "It works by inactivating proteins" },
+                    { key: "B", text: "It is better than chlorine against most microbes" },
+                    { key: "C", text: "Tincture of iodine is iodine in water" },
+                    { key: "D", text: "It stains, smells and is not stable" },
+                    { key: "E", text: "Lodophors are iodine linked to detergents" }
+                ],
+                correct: ["A", "B", "D", "E"],
+                why: "Tincture of iodine is iodine in alcohol, not water."
+            }
+        ];
+
+        // State variables
+        let currentFilter = 'all';
+        let filteredQuestions = [...questions];
+        let currentIndex = 0;
+        let userSelections = {}; // Temporary selection before submit { qId: string or [strings] }
+        let submittedAnswers = {}; // Finalized submissions { qId: { selected: ..., isCorrect: ... } }
+        let isDarkMode = true;
+
+        // DOM elements
+        const bodyRoot = document.getElementById('body-root');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+        const welcomeView = document.getElementById('welcome-view');
+        const examView = document.getElementById('exam-view');
+        const resultsView = document.getElementById('results-view');
+        const sidebarContainer = document.getElementById('sidebar-container');
+        const gradeDisplay = document.getElementById('grade-display');
+        const questionBadge = document.getElementById('question-badge');
+        const questionTypeBadge = document.getElementById('question-type-badge');
+        const selectAllNote = document.getElementById('select-all-note');
+        const questionTitle = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackBox = document.getElementById('feedback-box');
+        const feedbackHeader = document.getElementById('feedback-header');
+        const feedbackRationale = document.getElementById('feedback-rationale');
+        const submitAnsBtn = document.getElementById('submit-ans-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const nextBtnText = document.getElementById('next-btn-text');
+        const navigatorGrid = document.getElementById('navigator-grid');
+        const sidebarAnsweredCount = document.getElementById('sidebar-answered-count');
+        const finishExamSection = document.getElementById('finish-exam-section');
+
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                bodyRoot.className = 'bg-slate-900 text-slate-100 h-full flex flex-col antialiased transition-colors duration-300 dark';
+                themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+                themeIcon.className = 'w-4 h-4 text-amber-400';
+                themeText.textContent = 'Light Mode';
+            } else {
+                bodyRoot.className = 'bg-slate-50 text-slate-900 h-full flex flex-col antialiased transition-colors duration-300';
+                themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+                themeIcon.className = 'w-4 h-4 text-indigo-600';
+                themeText.textContent = 'Dark Mode';
+            }
+        }
+
+        // Filter functionality
+        function setFilter(filterKey) {
+            currentFilter = filterKey;
+            
+            // Update button styles
+            document.querySelectorAll('.filter-pill').forEach(btn => {
+                btn.className = isDarkMode 
+                    ? 'filter-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'
+                    : 'filter-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200';
+            });
+            event.target.className = 'filter-pill active-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-emerald-600 text-white shadow-md shadow-emerald-600/20';
+
+            if (filterKey === 'all') {
+                filteredQuestions = [...questions];
+            } else {
+                filteredQuestions = questions.filter(q => q.section === filterKey);
+            }
+
+            currentIndex = 0;
+            if (examView.classList.contains('hidden') === false) {
+                loadQuestion(currentIndex);
+            }
+        }
+
+        function startExam() {
+            welcomeView.classList.add('hidden');
+            examView.classList.remove('hidden');
+            sidebarContainer.classList.remove('hidden');
+            buildNavigator();
+            loadQuestion(0);
+            updateLiveGrade();
+        }
+
+        function buildNavigator() {
+            navigatorGrid.innerHTML = '';
+            filteredQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `nav-btn-${idx}`;
+                btn.className = 'w-10 h-10 rounded-xl font-semibold text-xs transition-all flex items-center justify-center border';
+                btn.textContent = q.id;
+                btn.onclick = () => goToQuestion(idx);
+                navigatorGrid.appendChild(btn);
+            });
+            updateNavigatorUI();
+        }
+
+        function updateNavigatorUI() {
+            filteredQuestions.forEach((q, idx) => {
+                const btn = document.getElementById(`nav-btn-${idx}`);
+                if (!btn) return;
+                
+                const isSub = submittedAnswers[q.id] !== undefined;
+                const isCurrent = idx === currentIndex;
+
+                let classStr = 'w-10 h-10 rounded-xl font-semibold text-xs transition-all flex items-center justify-center border relative';
+                
+                if (isCurrent) {
+                    classStr += isDarkMode ? ' ring-2 ring-emerald-500 ring-offset-2 ring-offset-slate-800' : ' ring-2 ring-emerald-500 ring-offset-2 ring-offset-white';
+                }
+
+                if (isSub) {
+                    if (submittedAnswers[q.id].isCorrect) {
+                        classStr += ' bg-emerald-500/20 border-emerald-500 text-emerald-400';
+                    } else {
+                        classStr += ' bg-rose-500/20 border-rose-500 text-rose-400';
+                    }
+                } else {
+                    classStr += isDarkMode ? ' bg-slate-700/60 border-slate-600 text-slate-300 hover:bg-slate-700' : ' bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200';
+                }
+
+                btn.className = classStr;
+            });
+
+            const submittedCount = Object.keys(submittedAnswers).length;
+            sidebarAnsweredCount.textContent = `${submittedCount} of 30 Submitted`;
+
+            if (submittedCount > 0) {
+                finishExamSection.classList.remove('hidden');
+            } else {
+                finishExamSection.classList.add('hidden');
+            }
+        }
+
+        function loadQuestion(index) {
+            currentIndex = index;
+            const q = filteredQuestions[index];
+
+            questionBadge.textContent = `Question ${index + 1} of ${filteredQuestions.length} (Q${q.id})`;
+
+            if (q.type === 'sata') {
+                questionTypeBadge.textContent = 'Select All That Apply';
+                questionTypeBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30';
+                selectAllNote.classList.remove('hidden');
+            } else {
+                questionTypeBadge.textContent = 'Multiple Choice';
+                questionTypeBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30';
+                selectAllNote.classList.add('hidden');
+            }
+
+            questionTitle.textContent = q.text;
+
+            const isSub = submittedAnswers[q.id] !== undefined;
+
+            // Render Options
+            optionsContainer.innerHTML = '';
+            q.options.forEach(opt => {
+                const label = document.createElement('label');
+                
+                let baseStyle = isDarkMode 
+                    ? 'flex items-start p-4 rounded-xl border border-slate-700 bg-slate-900/50 cursor-pointer transition-all gap-3'
+                    : 'flex items-start p-4 rounded-xl border border-slate-200 bg-white cursor-pointer transition-all gap-3';
+
+                if (isSub) {
+                    label.className = baseStyle + ' opacity-90 cursor-default';
+                } else {
+                    label.className = baseStyle + (isDarkMode ? ' hover:bg-slate-700/50' : ' hover:bg-slate-50');
+                }
+
+                // Selection check
+                let isSelected = false;
+                if (isSub) {
+                    const subSel = submittedAnswers[q.id].selected;
+                    isSelected = q.type === 'sata' ? subSel.includes(opt.key) : subSel === opt.key;
+                } else {
+                    const tempSel = userSelections[q.id];
+                    isSelected = q.type === 'sata' ? (tempSel && tempSel.includes(opt.key)) : (tempSel === opt.key);
+                }
+
+                // Visual coloring if submitted
+                if (isSub) {
+                    const isCorrectOpt = q.type === 'sata' ? q.correct.includes(opt.key) : q.correct === opt.key;
+                    if (isCorrectOpt) {
+                        label.className = 'flex items-start p-4 rounded-xl border border-emerald-500 bg-emerald-500/10 cursor-default gap-3';
+                    } else if (isSelected && !isCorrectOpt) {
+                        label.className = 'flex items-start p-4 rounded-xl border border-rose-500 bg-rose-500/10 cursor-default gap-3';
+                    }
+                } else if (isSelected) {
+                    label.className = isDarkMode 
+                        ? 'flex items-start p-4 rounded-xl border border-emerald-500/60 bg-emerald-500/10 cursor-pointer transition-all gap-3 shadow-sm'
+                        : 'flex items-start p-4 rounded-xl border border-emerald-400 bg-emerald-50 cursor-pointer transition-all gap-3 shadow-sm';
+                }
+
+                let input;
+                if (q.type === 'sata') {
+                    input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.name = `q-${q.id}`;
+                    input.value = opt.key;
+                    input.checked = isSelected;
+                    input.disabled = isSub;
+                    input.className = 'mt-1 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-slate-600 rounded';
+                    input.onchange = () => handleSataInput(q.id, opt.key, input.checked);
+                } else {
+                    input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `q-${q.id}`;
+                    input.value = opt.key;
+                    input.checked = isSelected;
+                    input.disabled = isSub;
+                    input.className = 'mt-1 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-slate-600';
+                    input.onchange = () => handleMcInput(q.id, opt.key);
+                }
+
+                const spanKey = document.createElement('span');
+                spanKey.className = 'font-bold text-emerald-400 min-w-[20px]';
+                spanKey.textContent = `${opt.key}.`;
+
+                const spanText = document.createElement('span');
+                spanText.className = isDarkMode ? 'text-slate-200 text-sm sm:text-base flex-1' : 'text-slate-800 text-sm sm:text-base flex-1';
+                spanText.textContent = opt.text;
+
+                label.appendChild(input);
+                label.appendChild(spanKey);
+                label.appendChild(spanText);
+                optionsContainer.appendChild(label);
+            });
+
+            // Feedback box
+            if (isSub) {
+                showFeedbackUI(q, submittedAnswers[q.id].isCorrect);
+                submitAnsBtn.disabled = true;
+                submitAnsBtn.textContent = 'Submitted';
+                submitAnsBtn.className = 'flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-slate-700 text-slate-400 font-medium text-sm border border-slate-600 cursor-not-allowed';
+            } else {
+                feedbackBox.classList.add('hidden');
+                submitAnsBtn.disabled = false;
+                submitAnsBtn.textContent = 'Submit Answer';
+                submitAnsBtn.className = 'flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center space-x-1.5';
+            }
+
+            prevBtn.disabled = index === 0;
+            if (index === filteredQuestions.length - 1) {
+                nextBtnText.textContent = 'Review Score';
+            } else {
+                nextBtnText.textContent = 'Next';
+            }
+
+            updateNavigatorUI();
+        }
+
+        function handleMcInput(qid, key) {
+            userSelections[qid] = key;
+            loadQuestion(currentIndex);
+        }
+
+        function handleSataInput(qid, key, checked) {
+            if (!userSelections[qid]) {
+                userSelections[qid] = [];
+            }
+            if (checked) {
+                if (!userSelections[qid].includes(key)) userSelections[qid].push(key);
+            } else {
+                userSelections[qid] = userSelections[qid].filter(k => k !== key);
+            }
+            loadQuestion(currentIndex);
+        }
+
+        function submitCurrentAnswer() {
+            const q = filteredQuestions[currentIndex];
+            const sel = userSelections[q.id];
+
+            if (!sel || (Array.isArray(sel) && sel.length === 0)) {
+                showAlert("Please select an answer option before submitting.");
+                return;
+            }
+
+            let isCorrect = false;
+            if (q.type === 'sata') {
+                const sortedSel = [...sel].sort();
+                const sortedCor = [...q.correct].sort();
+                isCorrect = JSON.stringify(sortedSel) === JSON.stringify(sortedCor);
+            } else {
+                isCorrect = sel === q.correct;
+            }
+
+            submittedAnswers[q.id] = {
+                selected: sel,
+                isCorrect: isCorrect
+            };
+
+            loadQuestion(currentIndex);
+            updateLiveGrade();
+        }
+
+        function showFeedbackUI(q, isCorrect) {
+            feedbackBox.classList.remove('hidden');
+            if (isCorrect) {
+                feedbackBox.className = isDarkMode 
+                    ? 'mt-6 p-5 rounded-xl border bg-emerald-950/40 border-emerald-500/50 text-emerald-200 text-sm'
+                    : 'mt-6 p-5 rounded-xl border bg-emerald-50 border-emerald-300 text-emerald-900 text-sm';
+                feedbackHeader.innerHTML = `
+                    <svg class="w-5 h-5 text-emerald-400 inline mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-emerald-400 font-bold">Correct! Excellent work.</span>
+                `;
+            } else {
+                feedbackBox.className = isDarkMode 
+                    ? 'mt-6 p-5 rounded-xl border bg-rose-950/40 border-rose-500/50 text-rose-200 text-sm'
+                    : 'mt-6 p-5 rounded-xl border bg-rose-50 border-rose-300 text-rose-900 text-sm';
+                const correctStr = q.type === 'sata' ? q.correct.join(', ') : q.correct;
+                feedbackHeader.innerHTML = `
+                    <svg class="w-5 h-5 text-rose-400 inline mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <span class="text-rose-400 font-bold">Incorrect. Correct Answer: <span class="underline">${correctStr}</span></span>
+                `;
+            }
+            feedbackRationale.textContent = q.why;
+        }
+
+        function updateLiveGrade() {
+            const submittedKeys = Object.keys(submittedAnswers);
+            const totalSubmitted = submittedKeys.length;
+            if (totalSubmitted === 0) {
+                gradeDisplay.textContent = 'Grade: 100% (0/30)';
+                return;
+            }
+
+            let correctCount = 0;
+            submittedKeys.forEach(k => {
+                if (submittedAnswers[k].isCorrect) correctCount++;
+            });
+
+            // Grade starts at 100% and reflects percentage of correct answers out of total submitted so far
+            const currentPercentage = Math.round((correctCount / totalSubmitted) * 100);
+            gradeDisplay.textContent = `Grade: ${currentPercentage}% (${correctCount}/${totalSubmitted})`;
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                loadQuestion(currentIndex - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentIndex < filteredQuestions.length - 1) {
+                loadQuestion(currentIndex + 1);
+            } else {
+                finishExam();
+            }
+        }
+
+        function goToQuestion(index) {
+            loadQuestion(index);
+        }
+
+        function finishExam() {
+            let correctCount = 0;
+            Object.keys(submittedAnswers).forEach(k => {
+                if (submittedAnswers[k].isCorrect) correctCount++;
+            });
+
+            const finalPercentage = Math.round((correctCount / 30) * 100);
+
+            examView.classList.add('hidden');
+            sidebarContainer.classList.add('hidden');
+            resultsView.classList.remove('hidden');
+
+            document.getElementById('final-percentage').textContent = `${finalPercentage}%`;
+            document.getElementById('final-fraction').textContent = `${correctCount} / 30 Correct`;
+
+            const badge = document.getElementById('final-readiness-badge');
+            const desc = document.getElementById('final-readiness-desc');
+
+            if (finalPercentage >= 90) {
+                badge.className = 'inline-block px-4 py-2 rounded-xl text-sm font-bold mb-3 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                badge.textContent = '27-30: Complete Mastery!';
+                desc.textContent = 'Outstanding result! You have locked down the core microbiological concepts. Review the cram sheet and rest before your exam.';
+            } else if (finalPercentage >= 70) {
+                badge.className = 'inline-block px-4 py-2 rounded-xl text-sm font-bold mb-3 bg-amber-500/20 text-amber-300 border border-amber-500/30';
+                badge.textContent = '21-26: Solid Understanding';
+                desc.textContent = 'Good progress! Re-read only the specific study guide Parts for the questions you missed.';
+            } else {
+                badge.className = 'inline-block px-4 py-2 rounded-xl text-sm font-bold mb-3 bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                badge.textContent = 'Review Recommended';
+                desc.textContent = 'Read Parts 3, 5, and 6 again thoroughly, focusing on heat parameters, testing methodologies, and chemical agents.';
+            }
+        }
+
+        function reviewAllAnswers() {
+            resultsView.classList.add('hidden');
+            examView.classList.remove('hidden');
+            sidebarContainer.classList.remove('hidden');
+            loadQuestion(0);
+        }
+
+        function restartExam() {
+            userSelections = {};
+            submittedAnswers = {};
+            currentIndex = 0;
+            resultsView.classList.add('hidden');
+            welcomeView.classList.remove('hidden');
+            sidebarContainer.classList.add('hidden');
+            updateLiveGrade();
+        }
+
+        function showAlert(msg) {
+            const alertBox = document.createElement('div');
+            alertBox.className = 'fixed top-24 right-6 bg-slate-800 text-white border border-slate-700 px-6 py-3.5 rounded-xl shadow-2xl z-50 text-sm font-medium animate-bounce';
+            alertBox.textContent = msg;
+            document.body.appendChild(alertBox);
+            setTimeout(() => alertBox.remove(), 2500);
+        }
+    </script>
+</body>
+</html>
